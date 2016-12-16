@@ -4,7 +4,7 @@
 
 #define FOV 45.0f
 #define NEAR_CLIP 0.01f
-#define FAR_CLIP 100.0f
+#define FAR_CLIP 50.0f
 #define SENSITIVITY 0.8f
 
 GLuint program;
@@ -82,6 +82,16 @@ void PlayState::update() {
 	glm::vec3 pos = player.getPos();
 	glm::vec3 vel = player.getVel();
 
+	// portal collision
+	for(int i = 0; i < level.portals.size(); i++) {
+		if(pos.x > level.portals[i].x1 && pos.x < level.portals[i].x2 &&
+		   pos.z > level.portals[i].z1 && pos.z < level.portals[i].z2) {
+			// only teleport if the user is looking in the same direction as the portal
+			if(acos(glm::dot(player.getForward(), level.portals[i].getEnterForward())) < 3.14/2)
+				pos += level.portals[i].getDeltaPos();
+		}
+	}
+
 	// wall collision
 	for(int i = 0; i < level.wallCollision.size(); i++) {
 		// x component
@@ -95,16 +105,6 @@ void PlayState::update() {
 		   pos.z+player.RAD > level.wallCollision[i].z1 && pos.z-player.RAD < level.wallCollision[i].z2) {
 			vel.z = 0.0;
 			pos.z = pos0.z;
-		}
-	}
-
-	// portal collision
-	for(int i = 0; i < level.portals.size(); i++) {
-		if(pos.x > level.portals[i].x1 && pos.x < level.portals[i].x2 &&
-		   pos.z > level.portals[i].z1 && pos.z < level.portals[i].z2) {
-			// only teleport if the user is looking in the same direction as the portal
-			if(acos(glm::dot(player.getForward(), level.portals[i].getEnterForward())) < 3.14/2)
-				pos += level.portals[i].getDeltaPos();
 		}
 	}
 
@@ -156,7 +156,7 @@ void PlayState::render() {
 		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 		glDepthMask(GL_FALSE);
 		glStencilFunc(GL_NEVER, 1, 0xFF);
-		glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
+		glStencilOp(GL_INCR, GL_KEEP, GL_KEEP);
 
 		glStencilMask(0xFF);
 		glClear(GL_STENCIL_BUFFER_BIT);
@@ -176,7 +176,7 @@ void PlayState::render() {
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 		glDepthMask(GL_TRUE);
 		glStencilMask(0x00);
-		glStencilFunc(GL_EQUAL, 1, 0xFF); // where the stencil buffer is one
+		glStencilFunc(GL_LEQUAL, 1, 0xFF); // where the stencil buffer is one
 
 		// clip the near plane properly (see Rendering a Single Portal in: https://th0mas.nl/2013/05/19/rendering-recursive-portals-with-opengl/)
 		camera.setPosition(player.getPos() + level.portals[i].getDeltaPos());

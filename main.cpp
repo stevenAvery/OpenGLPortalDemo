@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(1814, 257);
+	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(1024, 576);
 	glutCreateWindow("Portal Demo");
 	GLenum error = glewInit();

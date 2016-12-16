@@ -19,7 +19,7 @@ class Player {
 		const float TRANSITION_SPEED = 10.0f;
 
 	public:
-		const float ROT_SPEED =  3.141592/64;
+		const float ROT_SPEED =  3.141592/128;
 		const float RAD = 0.25;
 
 		Player();

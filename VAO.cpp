@@ -74,7 +74,7 @@ void VAO::genObj(GLuint program, GLfloat *vertices, GLfloat *normals, GLuint *in
 	glEnableVertexAttribArray(vNormal);
 
 	// output the creation of the VAO
-	std::cout << "VAO created: \n\tvaoID: " << this->vaoID << "\n\tvboID: " << this->vboID << "\n\ttriangles: " << this->triangles << std::endl;
+	std::cout << "Model created: \n\tvaoID: " << this->vaoID << "\n\ttriangles: " << this->triangles << std::endl;
 }
 
 GLuint VAO::getVaoID() {
