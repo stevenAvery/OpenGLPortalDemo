@@ -5,6 +5,7 @@ Portal::Portal() {
 	this->exitPos = glm::vec3(0.0, 0.0, 0.0);
 	this->exitForward = glm::vec3(-1.0f, 0.0f, 0.0f);
 	this->enterForward = glm::vec3(-1.0f, 0.0f, 0.0f);
+	this->rotateRight = 0.0;
 	this->x1 = 0.0;
 	this->z1 = 0.0;
 	this->x2 = 0.0;

@@ -13,6 +13,7 @@ class Portal {
 	public:
 		Entity entity;
 		glm::vec3 enterPos;
+		float rotateRight;
 		float x1, z1, x2, z2;
 
 		Portal();

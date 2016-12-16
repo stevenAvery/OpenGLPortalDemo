@@ -4,7 +4,7 @@
 
 #define FOV 45.0f
 #define NEAR_CLIP 0.01f
-#define FAR_CLIP 50.0f
+#define FAR_CLIP 66.0f
 #define SENSITIVITY 0.8f
 
 GLuint program;
@@ -87,8 +87,10 @@ void PlayState::update() {
 		if(pos.x > level.portals[i].x1 && pos.x < level.portals[i].x2 &&
 		   pos.z > level.portals[i].z1 && pos.z < level.portals[i].z2) {
 			// only teleport if the user is looking in the same direction as the portal
-			if(acos(glm::dot(player.getForward(), level.portals[i].getEnterForward())) < 3.14/2)
+			if(acos(glm::dot(player.getForward(), level.portals[i].getEnterForward())) < 3.14/2 || i == 1) {
 				pos += level.portals[i].getDeltaPos();
+				player.rotateRight(level.portals[i].rotateRight);
+			}
 		}
 	}
 
